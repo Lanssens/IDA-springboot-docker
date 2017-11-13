@@ -1,7 +1,7 @@
 package be.ida.aurora.resources;
 
 import be.ida.aurora.models.Person;
-import be.ida.aurora.repositories.PersonRepository;
+import be.ida.aurora.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,7 +12,7 @@ import java.util.List;
 public class PersonResource {
 
     @Autowired
-    PersonRepository personRepository;
+    PersonService personService;
 
     /**
      * POST --> Create a new person and save it in the database.
@@ -20,27 +20,27 @@ public class PersonResource {
 
     @PostMapping
     public Person postPerson(@RequestBody Person person) {
-        person = personRepository.save(person);
+        person = personService.postPerson(person);
         return person;
     }
 
     /**
-     * GET --> Read a person by person id from the database.
+     * GET --> Get a person by person id from the database.
      */
 
     @GetMapping("/{personId}")
     public Person getPerson(@PathVariable long personId) {
-        Person person = personRepository.findOne(personId);
+        Person person = personService.getPerson(personId);
         return person;
     }
 
     /**
-     * GET ALL  --> Read all persons from the database.
+     * GET ALL  --> Get all people from the database.
      */
 
     @GetMapping
     public List<Person> getPersons() {
-        List<Person> persons = (List<Person>)personRepository.findAll();
+        List<Person> persons = personService.getPersons();
         return persons;
     }
 
@@ -50,11 +50,7 @@ public class PersonResource {
 
     @RequestMapping("/{personId}")
     public Person updatePerson(@PathVariable long personId, @RequestBody Person personBody) {
-        Person person = personRepository.findOne(personId);
-        person.setEmail(personBody.getEmail(  ));
-        person.setFirstName(personBody.getFirstName(  ));
-        person.setLastName(personBody.getLastName(  ));
-        person = personRepository.save(person);
+        Person person = personService.updatePerson( personId, personBody );
         return person;
     }
 
@@ -63,8 +59,8 @@ public class PersonResource {
      */
 
     @DeleteMapping("/{personId}")
-    public String deletePerson(@PathVariable long personId) {
-        personRepository.delete(personId);
-        return "person #"+personId+" deleted successfully";
+    public Person deletePerson(@PathVariable long personId) {
+        Person person = personService.deletePerson( personId );
+        return person;
     }
 }
