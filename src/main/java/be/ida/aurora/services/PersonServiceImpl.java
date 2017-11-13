@@ -19,13 +19,11 @@ public class PersonServiceImpl implements PersonService{
      */
 
     public Person postPerson(Person person) throws DbException{
-
         try{
             return personRepository.save(person);
         }catch( Exception e ){
-            throw new DbException( "Error in mongoDB" );
+            throw new DbException( "Error in aurora" );
         }
-
     }
 
     /**
@@ -33,13 +31,11 @@ public class PersonServiceImpl implements PersonService{
      */
 
     public Person getPerson(long personId) throws DbException{
-
         try{
             return personRepository.findOne(personId);
         }catch( Exception e ){
-            throw new DbException( "Error in mongoDB" );
+            throw new DbException( "Error in aurora" );
         }
-
     }
 
     /**
@@ -47,13 +43,11 @@ public class PersonServiceImpl implements PersonService{
      */
 
     public List<Person> getPersons() throws DbException{
-
         try{
             return (List<Person>)personRepository.findAll();
         }catch( Exception e ){
-            throw new DbException( "Error in mongoDB" );
+            throw new DbException( "Error in aurora" );
         }
-
     }
 
     /**
@@ -61,7 +55,6 @@ public class PersonServiceImpl implements PersonService{
      */
 
     public Person updatePerson( long personId, Person personBody) throws DbException{
-
         try{
             Person person = personRepository.findOne(personId);
             person.setEmail(personBody.getEmail(  ));
@@ -69,9 +62,8 @@ public class PersonServiceImpl implements PersonService{
             person.setLastName(personBody.getLastName(  ));
             return personRepository.save(person);
         }catch( Exception e ){
-            throw new DbException( "Error in mongoDB" );
+            throw new DbException( "Error in aurora" );
         }
-
     }
 
     /**
@@ -84,8 +76,7 @@ public class PersonServiceImpl implements PersonService{
             personRepository.delete(personId);
             return person;
         }catch( Exception e ){
-            throw new DbException( "Error in mongoDB" );
+            throw new DbException( "Error in aurora" );
         }
-
     }
 }

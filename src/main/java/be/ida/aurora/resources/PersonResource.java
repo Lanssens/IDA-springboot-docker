@@ -1,8 +1,11 @@
 package be.ida.aurora.resources;
 
+import be.ida.aurora.exceptions.DbException;
 import be.ida.aurora.models.Person;
 import be.ida.aurora.services.PersonService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,9 +22,13 @@ public class PersonResource {
      */
 
     @PostMapping
-    public Person postPerson(@RequestBody Person person) {
-        person = personService.postPerson(person);
-        return person;
+    public ResponseEntity<Person> postPerson(@RequestBody Person person) {
+        try{
+            person = personService.postPerson(person);
+            return new ResponseEntity<>( person, HttpStatus.CREATED );
+        }catch( DbException db ){
+            return new ResponseEntity<>( HttpStatus.INTERNAL_SERVER_ERROR );
+        }
     }
 
     /**
@@ -29,9 +36,13 @@ public class PersonResource {
      */
 
     @GetMapping("/{personId}")
-    public Person getPerson(@PathVariable long personId) {
-        Person person = personService.getPerson(personId);
-        return person;
+    public ResponseEntity<Person> getPerson(@PathVariable long personId) {
+        try{
+            Person person = personService.getPerson(personId);
+            return new ResponseEntity<>( person, HttpStatus.CREATED );
+        }catch( DbException db ){
+            return new ResponseEntity<>( HttpStatus.INTERNAL_SERVER_ERROR );
+        }
     }
 
     /**
@@ -39,9 +50,13 @@ public class PersonResource {
      */
 
     @GetMapping
-    public List<Person> getPersons() {
-        List<Person> persons = personService.getPersons();
-        return persons;
+    public ResponseEntity<List<Person>> getPersons() {
+        try{
+            List<Person> persons = personService.getPersons();
+            return new ResponseEntity<>( persons, HttpStatus.CREATED );
+        }catch( DbException db ){
+            return new ResponseEntity<>( HttpStatus.INTERNAL_SERVER_ERROR );
+        }
     }
 
     /**
@@ -49,9 +64,13 @@ public class PersonResource {
      */
 
     @RequestMapping("/{personId}")
-    public Person updatePerson(@PathVariable long personId, @RequestBody Person personBody) {
-        Person person = personService.updatePerson( personId, personBody );
-        return person;
+    public ResponseEntity<Person> updatePerson(@PathVariable long personId, @RequestBody Person personBody) {
+        try{
+            Person person = personService.updatePerson( personId, personBody );
+            return new ResponseEntity<>( person, HttpStatus.CREATED );
+        }catch( DbException db ){
+            return new ResponseEntity<>( HttpStatus.INTERNAL_SERVER_ERROR );
+        }
     }
 
     /**
@@ -59,8 +78,12 @@ public class PersonResource {
      */
 
     @DeleteMapping("/{personId}")
-    public Person deletePerson(@PathVariable long personId) {
-        Person person = personService.deletePerson( personId );
-        return person;
+    public ResponseEntity<Person> deletePerson( @PathVariable long personId) {
+        try{
+            Person person = personService.deletePerson( personId );
+            return new ResponseEntity<>( person, HttpStatus.CREATED );
+        }catch( DbException db ){
+            return new ResponseEntity<>( HttpStatus.INTERNAL_SERVER_ERROR );
+        }
     }
 }
