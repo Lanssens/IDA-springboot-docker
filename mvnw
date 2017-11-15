@@ -113,8 +113,7 @@ if $mingw ; then
   [ -n "$M2_HOME" ] &&
     M2_HOME="`(cd "$M2_HOME"; pwd)`"
   [ -n "$JAVA_HOME" ] &&
-    JAVA_HOME="`(cd "$JAVA_HOME"; pwd)`"
-  # TODO classpath?
+    JAVA_HOME="`(cd "$JAVA_HOME"; pwdmvn
 fi
 
 if [ -z "$JAVA_HOME" ]; then
